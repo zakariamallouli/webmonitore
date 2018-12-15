@@ -1,0 +1,41 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <webview.h>
+#include <QApplication>
+#include <QString>
+#include <QMessageBox>
+#include <time.h>
+#include <QTimer>
+#include <QtCore>
+#include <math.h>
+
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
+
+
+private slots:
+   void on_pushButton_clicked();
+   int changement(QString,QString);
+   void loadingChang();
+private:
+    Ui::MainWindow *ui;
+    webview *p=new webview();
+     QTimer *timer=new QTimer(this);
+    QString first_source;
+    QString second_source;
+    QString chang;
+};
+
+#endif // MAINWINDOW_H

@@ -1,0 +1,139 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+//function min betwen a,b
+
+int min(int a,int b){
+
+if (a<b) return a;
+return b;
+}
+//consctrutor
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+   connect(timer,SIGNAL(timeout()),this,SLOT(loadingChang()));
+}
+
+//function that detecter called by timer to detecter changement
+void MainWindow::loadingChang(){
+    timer->stop();
+    p->loadp(ui->plainTextEdit->toPlainText());
+    second_source=p->getsource();
+    changement(first_source,second_source);
+
+
+}
+//function that detecter changement
+
+int MainWindow::changement(QString a,QString b){
+
+   ui->plainTextEdit_2->setPlainText("");
+
+for(int i=0;i<min(a.length(),b.length());i++){
+
+    ui->plainTextEdit_2->setPlainText(ui->plainTextEdit_2->toPlainText()+a[i]);
+
+    if(a.length()>b.length() && a[i]==b[abs(i+a.length()-b.length()-2)]) {
+
+        ui->label_4->setText("un changement suprimer");
+        ui->plainTextEdit_2->appendHtml("<span style='background:red;'>");
+        while( a[i]==b[abs(i+a.length()-b.length()-2)] ) {
+
+           ui->plainTextEdit_2->setPlainText(ui->plainTextEdit_2->toPlainText()+a[i]);
+
+           i++;
+        }
+
+         ui->plainTextEdit_2->appendHtml("</span>");
+    }
+    if(a[i]!=b[i]) {
+
+        ui->label_4->setText("un changement detecter");
+
+         ui->plainTextEdit_2->appendHtml("<span style='background:red;'>");
+
+        for(int j=i;a[j]!=b[j];j++) {
+
+         ui->plainTextEdit_2->setPlainText(ui->plainTextEdit_2->toPlainText()+a[i]);
+           j++;
+        }
+
+      ui->plainTextEdit_2->appendHtml("</span><span style='background:blue;'> ");
+
+
+
+        while( a[i]!=b[i]) {
+
+        ui->plainTextEdit_2->setPlainText(ui->plainTextEdit_2->toPlainText()+b[i]);
+           i++;
+        }
+
+        ui->plainTextEdit_2->appendHtml("</span>");
+
+    }
+
+    if(a.length()<b.length() && a[i]==b[abs(i+b.length()-a.length()-2)]) {
+        ui->label_4->setText("un changement dajouter");
+
+       ui->plainTextEdit_2->appendHtml("<span style='background:blue;'>");
+        while(a[i]==b[abs(i+b.length()-a.length()-2)] ) {
+
+    ui->plainTextEdit_2->setPlainText(ui->plainTextEdit_2->toPlainText()+ b[i]);
+
+           i++;
+        }
+
+        ui->plainTextEdit_2->appendHtml("</span>");
+
+
+    }
+
+    if(a==b) {
+
+        ui->label_4->setText("pas changment");
+
+       }
+
+}
+
+
+return 1;
+}
+
+//click slot
+void MainWindow::on_pushButton_clicked()
+{
+
+    p->show();
+
+    // set url to wface in class webview
+    p->loadp(ui->plainTextEdit->toPlainText());
+   //get code first code source of url
+   first_source=p->getsource();
+   //start timer
+   timer->start(60000);
+
+
+
+
+
+
+   ui->label_3->setText(p->getinfo().title+"\n\n");
+   ui->label_3->setText( ui->label_3->text()+p->getinfo().url+"\n");
+
+//   QMessageBox* msgbox = new QMessageBox(this);
+//   msgbox->setWindowTitle("Note");
+//   msgbox->setText("Successfully copied item foobar");
+//   msgbox->open();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+    p->close();
+    delete p;
+
+}

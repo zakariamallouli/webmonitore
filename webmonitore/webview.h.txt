@@ -1,0 +1,48 @@
+#ifndef WEBVIEW_H
+#define WEBVIEW_H
+#include <QMainWindow>
+#include <QWebView>
+#include <QUrl>
+#include <QString>
+#include <QWebFrame>
+#include <QWebPage>
+#include <QIcon>
+
+typedef struct infosite{
+
+    QString title;
+    QString url;
+    QIcon icon;
+
+
+
+}infosite;
+
+class webview : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+
+    explicit webview(QWidget *parent = nullptr);
+    void loadp(QString url);
+     QString getsource();
+     int loading();
+     infosite getinfo();
+     int status();
+   virtual  ~webview(){
+
+         delete wface;
+
+     }
+
+signals:
+
+public slots:
+
+private :
+    QWebView *wface;
+
+};
+
+#endif // WEBVIEW_H

@@ -1,0 +1,45 @@
+#include "webview.h"
+#include <QCoreApplication>
+
+
+
+webview::webview(QWidget *parent) : QMainWindow(parent)
+{
+     wface = new QWebView(this);
+     //set position and size
+     wface->setGeometry(40,40,700,700);
+
+}
+
+void webview::loadp(QString url){
+
+     wface->load(QUrl(url));
+
+
+}
+
+QString webview::getsource(){
+
+    return wface->page()->mainFrame()->toHtml();
+
+}
+
+int webview::loading(){
+
+      return 1;
+
+    }
+
+infosite webview::getinfo(){
+    infosite ex;
+    ex.title=wface->title();
+    ex.url=wface->url().toString();
+    ex.icon=wface->icon();
+    return ex;
+}
+
+
+int webview::status(){
+
+
+}
